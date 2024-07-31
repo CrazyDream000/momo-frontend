@@ -1,0 +1,141 @@
+{
+  "version": "0.1.0",
+  "name": "momo_staking",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        { "name": "stakingInfo", "isMut": true, "isSigner": false },
+        { "name": "tokenMint", "isMut": true, "isSigner": false },
+        { "name": "tokenVaults", "isMut": true, "isSigner": false },
+        { "name": "signer", "isMut": true, "isSigner": true },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "lockPeriod", "type": { "array": ["u64", 2] } },
+        { "name": "rewardRate", "type": { "array": ["u64", 2] } }
+      ]
+    },
+    {
+      "name": "setStakingInfo",
+      "accounts": [
+        { "name": "stakingInfo", "isMut": true, "isSigner": false },
+        { "name": "signer", "isMut": true, "isSigner": true }
+      ],
+      "args": [
+        { "name": "poolId", "type": "u64" },
+        { "name": "lockPeriod", "type": "u64" },
+        { "name": "rewardRate", "type": "u64" }
+      ]
+    },
+    {
+      "name": "withdrawToken",
+      "accounts": [
+        { "name": "stakingInfo", "isMut": true, "isSigner": false },
+        { "name": "tokenMint", "isMut": true, "isSigner": false },
+        { "name": "tokenVaults", "isMut": true, "isSigner": false },
+        { "name": "recipientToken", "isMut": true, "isSigner": false },
+        { "name": "signer", "isMut": true, "isSigner": true },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [{ "name": "amount", "type": "u64" }]
+    },
+    {
+      "name": "depositToken",
+      "accounts": [
+        { "name": "stakingInfo", "isMut": true, "isSigner": false },
+        { "name": "tokenMint", "isMut": true, "isSigner": false },
+        { "name": "tokenVaults", "isMut": true, "isSigner": false },
+        { "name": "senderToken", "isMut": true, "isSigner": false },
+        { "name": "signer", "isMut": true, "isSigner": true },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [{ "name": "amount", "type": "u64" }]
+    },
+    {
+      "name": "stake",
+      "accounts": [
+        { "name": "stakingInfo", "isMut": true, "isSigner": false },
+        { "name": "userStakeInfo", "isMut": true, "isSigner": false },
+        { "name": "tokenMint", "isMut": true, "isSigner": false },
+        { "name": "tokenVaults", "isMut": true, "isSigner": false },
+        { "name": "senderToken", "isMut": true, "isSigner": false },
+        { "name": "signer", "isMut": true, "isSigner": true },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "poolId", "type": "u64" },
+        { "name": "amount", "type": "u64" }
+      ]
+    },
+    {
+      "name": "unstake",
+      "accounts": [
+        { "name": "stakingInfo", "isMut": true, "isSigner": false },
+        { "name": "userStakeInfo", "isMut": true, "isSigner": false },
+        { "name": "tokenMint", "isMut": true, "isSigner": false },
+        { "name": "tokenVaults", "isMut": true, "isSigner": false },
+        { "name": "recipientToken", "isMut": true, "isSigner": false },
+        { "name": "signer", "isMut": true, "isSigner": true },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [{ "name": "poolId", "type": "u64" }]
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        { "name": "stakingInfo", "isMut": true, "isSigner": false },
+        { "name": "userStakeInfo", "isMut": true, "isSigner": false },
+        { "name": "tokenMint", "isMut": true, "isSigner": false },
+        { "name": "tokenVaults", "isMut": true, "isSigner": false },
+        { "name": "recipientToken", "isMut": true, "isSigner": false },
+        { "name": "signer", "isMut": true, "isSigner": true },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [{ "name": "poolId", "type": "u64" }]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "StakingInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "lockPeriod", "type": { "array": ["u64", 2] } },
+          { "name": "rewardRate", "type": { "array": ["u64", 2] } },
+          { "name": "tokenMint", "type": "publicKey" },
+          { "name": "owner", "type": "publicKey" },
+          { "name": "totalStaked", "type": "u64" },
+          { "name": "bump", "type": "u8" },
+          { "name": "vaultsBump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "UserStakeInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "amount", "type": { "array": ["u64", 2] } },
+          { "name": "stakedTime", "type": { "array": ["u64", 2] } },
+          { "name": "claimedTime", "type": { "array": ["u64", 2] } },
+          { "name": "claimedAmount", "type": { "array": ["u64", 2] } }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    { "code": 6000, "name": "NotOwner", "msg": "NOT_OWNER" },
+    {
+      "code": 6001,
+      "name": "InsufficientBalance",
+      "msg": "INSUFFICIENT BALANCE"
+    },
+    { "code": 6002, "name": "Locked", "msg": "IN LOCK PERIOD" },
+    { "code": 6003, "name": "InvalidPoolId", "msg": "INVALID POOL ID" }
+  ]
+}
